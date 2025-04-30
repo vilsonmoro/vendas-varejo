@@ -3,6 +3,7 @@ package config.authentication;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +37,15 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) 
             throws ServletException, IOException {
+    	
     	System.out.println("Requested Path: " + request.getRequestURI()); 
+    	
+    	System.out.println(request.getMethod());
+    	
+    	if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+    		filterChain.doFilter(request, response);
+            return;
+        }
     	
         if (isPublicPath(request)) {
             filterChain.doFilter(request, response);

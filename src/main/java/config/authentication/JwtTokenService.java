@@ -16,11 +16,11 @@ import config.userdetails.UserDetailsImpl;
 @Service
 public class JwtTokenService {
 
-    private static final String SECRET_KEY = "4Z^XrroxR@dWxqf$mTTKwW$!@#qGr4P"; // Chave secreta utilizada para gerar e verificar o token
-
-    private static final String ISSUER = "pizzurg-api"; // Emissor do token
+    private static final String SECRET_KEY = "4Z^XrroxR@dWxqf$mTTKwW$!@#qGr4P"; 
+    private static final String ISSUER = "pizzurg-api"; 
 
     public String gerarToken(UserDetailsImpl user) {
+    	System.out.println(user.getUsername());
         try {
             // Define o algoritmo HMAC SHA256 para criar a assinatura do token passando a chave secreta definida
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);

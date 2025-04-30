@@ -3,8 +3,15 @@ package services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import config.authentication.JwtTokenService;
+import config.security.RecoveryJwtTokenDto;
+import config.userdetails.UserDetailsImpl;
+import models.Login;
 import models.Usuario;
 import repositories.UsuarioRepository;
 
@@ -12,19 +19,23 @@ import repositories.UsuarioRepository;
 public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
-    /*private final AuthenticationManager authenticationManager;
-    private final JwtTokenService jwtTokenService;
+    
+    @Autowired
+    private  AuthenticationManager authenticationManager;
+    
+    @Autowired
+    private  JwtTokenService jwtTokenService;
 
     public RecoveryJwtTokenDto authenticateUser(Login loginUserDto) {
        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(loginUserDto.getUsuario(), loginUserDto.getSenha());
-
+               
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
+       
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
+        
         return new RecoveryJwtTokenDto(jwtTokenService.gerarToken(userDetails));
-    }*/
+    }
 
     public Usuario addUsuario(Usuario usuario){
         return repository.save(usuario);

@@ -1,6 +1,7 @@
 package config.userdetails;
 
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -8,10 +9,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import models.Usuario;
-public class UserDetailsImpl implements UserDetails {
-    private Usuario user;
+public class UserDetailsImpl implements UserDetails, Serializable {
+ 	private static final long serialVersionUID = 1L;
+	private Usuario user;
 
-    public UserDetailsImpl(Usuario user) {
+    public UserDetailsImpl(Usuario user) {    	
         this.user = user;
     }
 
