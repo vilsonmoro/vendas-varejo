@@ -26,7 +26,6 @@ import config.authentication.PublicEndpoints;
 import config.authentication.UserAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConf {
 
 	@Autowired
@@ -66,10 +65,11 @@ public class SecurityConf {
 	@Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5500"));
+       // config.setAllowedOrigins(List.of("http://localhost:5500"));
+        config.setAllowedOrigins(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        //config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
