@@ -4,28 +4,29 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import models.Cliente;
 import services.ClienteService;
 
 @RestController
+@Tag(name = "Cliente", description = "Operações relacionadas a clientes")
 public class ClienteController {
 	@Autowired
 	private ClienteService service;
 
 	@GetMapping("/clientes")
+	@Operation(summary = "Retorna todos os clientes cadastrados")
 	public ResponseEntity<List<Cliente>> getAllClientes() {
 		return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
 	}
@@ -40,6 +41,7 @@ public class ClienteController {
 	}
 
 	@PostMapping("/clientes")
+	@Operation(summary = "Insere um novo cliente")
 	public ResponseEntity<Object> addCliente(@RequestBody Cliente cliente) {
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(service.addCliente(cliente));
@@ -49,6 +51,7 @@ public class ClienteController {
 	}
 
 	@PutMapping("/clientes/{id}")
+	@Operation(summary = "Altera um cliente cadastrado")
 	public ResponseEntity<Object> updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
 		try {
 			Cliente updateCliente = service.update(id, cliente);
@@ -59,12 +62,14 @@ public class ClienteController {
 	}
 
 	@DeleteMapping("/clientes/{id}")
+	@Operation(summary = "Exclui um cliente cadastrado")
 	public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping("/clientes/buscar")
+	@Operation(summary = "Busca dados de clientes baseado em parâmetros")
 	public ResponseEntity<List<Cliente>> buscarClientes(@RequestParam(required = false) Long id,
 			@RequestParam(required = false) String nome) {
 		List<Cliente> clientes = service.buscarClientes(id, nome);

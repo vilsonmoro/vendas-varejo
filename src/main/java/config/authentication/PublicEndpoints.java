@@ -12,6 +12,10 @@ public class PublicEndpoints {
 	        "/clientes/**",
 	        "/formapagamento",
 	        "/tipoentrega",
-	        "/usuarios/**"
+	        "/usuarios/**",
+	        "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/endereco/**"
 	    );
 }
