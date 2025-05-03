@@ -14,7 +14,6 @@ WORKDIR /app
 COPY --from=build /app/target/tcc-0.0.1-SNAPSHOT.jar app.jar
 
 # Expõe a porta para a aplicação
-ENV PORT=8080
 EXPOSE ${PORT}
 
 # Inicia o aplicativo com o JAR gerado
