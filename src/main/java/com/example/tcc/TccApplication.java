@@ -13,10 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class TccApplication {
 
 	public static void main(String[] args) {
-		String port = System.getenv("PORT");
-	    if (port != null) {
-	        System.setProperty("server.port", port);
-	    }
 		SpringApplication.run(TccApplication.class, args);
 	}
 
