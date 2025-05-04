@@ -14,7 +14,7 @@ WORKDIR /app
 COPY --from=build /app/target/tcc-0.0.1-SNAPSHOT.jar app.jar
 
 # Expõe a porta para a aplicação
-EXPOSE ${PORT}
+EXPOSE 8080
 
 # Inicia o aplicativo com o JAR gerado
 ENTRYPOINT ["java", "-jar", "app.jar"]
