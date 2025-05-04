@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dto.TipoStatusDTO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import models.TipoStatus;
 
 @RestController
 @RequestMapping("/status")
+@Tag(name = "Status", description = "Operações relacionadas a status do sistema")
 public class TipoStatusController {
     TipoStatusDTO tipoStatusDTO;
 

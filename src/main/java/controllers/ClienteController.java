@@ -26,7 +26,6 @@ public class ClienteController {
 	private ClienteService service;
 
 	@GetMapping("/clientes")
-	@Operation(summary = "Retorna todos os clientes cadastrados")
 	public ResponseEntity<List<Cliente>> getAllClientes() {
 		return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
 	}
@@ -41,7 +40,6 @@ public class ClienteController {
 	}
 
 	@PostMapping("/clientes")
-	@Operation(summary = "Insere um novo cliente")
 	public ResponseEntity<Object> addCliente(@RequestBody Cliente cliente) {
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(service.addCliente(cliente));
@@ -51,7 +49,6 @@ public class ClienteController {
 	}
 
 	@PutMapping("/clientes/{id}")
-	@Operation(summary = "Altera um cliente cadastrado")
 	public ResponseEntity<Object> updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
 		try {
 			Cliente updateCliente = service.update(id, cliente);
@@ -62,7 +59,6 @@ public class ClienteController {
 	}
 
 	@DeleteMapping("/clientes/{id}")
-	@Operation(summary = "Exclui um cliente cadastrado")
 	public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();

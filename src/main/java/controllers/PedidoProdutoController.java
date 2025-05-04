@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import models.PedidoProduto;
 import services.PedidoProdutoService;
 
 @RestController
 @RequestMapping("/pedidoproduto")
+@Tag(name = "Carinnho de compras", description = "Operações de manipulação dos itens de pedido")
 public class PedidoProdutoController {
     private PedidoProdutoService service;
 

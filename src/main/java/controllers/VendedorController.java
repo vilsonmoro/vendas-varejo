@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import models.TipoStatus;
 import models.Vendedor;
 import services.VendedorService;
 
 @RestController
 @RequestMapping("/vendedor")
+@Tag(name = "Vendedor", description = "Operações relacionadas a vendedor")
 public class VendedorController {
     private VendedorService service;
 

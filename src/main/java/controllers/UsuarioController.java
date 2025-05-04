@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import models.Usuario;
 import services.UsuarioService;
 
 @RestController
+@Tag(name = "Usuários", description = "Operações relacionadas a usuários")
 public class UsuarioController {
     @Autowired
     private UsuarioService service;

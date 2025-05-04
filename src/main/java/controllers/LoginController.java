@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import config.security.RecoveryJwtTokenDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import models.Login;
 import services.UsuarioService;
 
 @RestController
+@Tag(name = "Login", description = "Operações relacionadas a acesso ao sistema")
 public class LoginController {
 
     @Autowired

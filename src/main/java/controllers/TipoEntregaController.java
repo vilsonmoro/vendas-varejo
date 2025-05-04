@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dto.TipoEntregaDTO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import models.TipoEntrega;
 
 @RestController
 @RequestMapping("/tipoentrega")
+@Tag(name = "Tipo de entrega", description = "Operações relacionadas ao tipo de entrega")
 public class TipoEntregaController {
     TipoEntregaDTO tipoEntregaDTO;
 
