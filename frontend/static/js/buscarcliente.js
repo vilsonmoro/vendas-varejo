@@ -1,3 +1,5 @@
+import { BASE_URL } from './url_base'
+
 let clientesPaginados = [];
 let currentPage = 1;
 const itemsPerPage = 10;
@@ -21,7 +23,7 @@ async function searchCliente() {
 	if (nome) params.append('nome', nome); 
 
 	try {
-		const response = await fetch(`/cliente/buscar?${params.toString()}`, {
+		const response = await fetch(`${BASE_URL}/cliente/buscar?${params.toString()}`, {
 			method: 'GET',
 			headers: {
 				'Authorization': `Bearer ${token}`,
@@ -77,7 +79,7 @@ function renderPage() {
             <td>${cliente.id}</td>
             <td>${cliente.nome}</td>
             <td>
-                <button class="action-button" onclick="editcliente('${cliente.id}')">
+                <button class="action-button" onclick="./editcliente.html?id=('${cliente.id}')">
                     <span class="material-icons">edit</span>
                 </button>
                 <button class="action-button" onclick="confirmDelete('${cliente.id}')">
@@ -118,7 +120,7 @@ async function editcliente(codigo) {
 	const token = localStorage.getItem('token');
 
     try {
-        const response = await fetch(`/cliente/${codigo}`, {
+        const response = await fetch(`${BASE_URL}/cliente/${codigo}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -135,7 +137,7 @@ async function editcliente(codigo) {
 
         localStorage.setItem('clienteParaEditar', JSON.stringify(cliente));
 
-        window.location.href = '/alterarcliente';
+        window.location.href = './alterarcliente.html';
 
     } catch (error) {
         console.error('Erro ao buscar cliente:', error);
@@ -150,7 +152,7 @@ async function confirmDelete(codigo) {
     const token = localStorage.getItem('token');
 
     try {
-        const response = await fetch(`/cliente/${codigo}`, {
+        const response = await fetch(`${BASE_URL}/cliente/${codigo}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,

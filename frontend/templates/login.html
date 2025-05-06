@@ -1,32 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/login.css">
-</head>
-<body>
-    <div class="page">
-        <img src="logo.jpg" alt="Logo" />
-        <form method="POST" class="formLogin" object="login">
-            <h1>Iniciar sessão</h1>
-            <div class="input-field">
-                <input type="text" field="usuario" id="login" required />
-                <label for="login">Login</label>
-            </div>
-            <div class="input-field">
-                <input type="password" id="password" field="senha" required />
-                <label for="password">Senha</label>
-            </div>
-            <button type="submit" class="btn">Login</button>
-        </form>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <img src="logo.jpg" alt="Logo" />
+      <form method="POST" class="formLogin" object="login">
+        <h1>Iniciar sessão</h1>
+        <div class="input-field">
+          <input type="text" field="usuario" id="login" required />
+          <label for="login">Login</label>
+        </div>
+        <div class="input-field">
+          <input type="password" id="password" field="senha" required />
+          <label for="password">Senha</label>
+        </div>
+        <button type="submit" class="btn" onclick="logar()">Login</button>
+      </form>
     </div>
+    <script>
+      function logar() {
+        debugger
+        const login = document.getElementById("login").value;
+        const password = document.getElementById("password").value;
+
+        if (!login || login.trim().length < 3) {
+          alert(
+            "Por favor, insira um email válido ou um nome de usuário (mínimo 3 caracteres)."
+          );
+          return;
+        }
+
+        if (!password) {
+          alert("Por favor, insira sua senha.");
+          return;
+        }
+
+        // Montar o objeto de dados para enviar
+        const data = {
+          usuario: login,
+          senha: password,
+        };
+
+        // Chamada à API para autenticação
+        fetch("localhost:8080/usuarios/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Erro na autenticação");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Verifique se o token foi retornado na resposta
+            if (data.token) {
+              // Salvar o token no localStorage
+              localStorage.setItem("token", data.token);
+
+              // Decodificar o token JWT para extrair o ID do usuário
+              const decodedToken = JSON.parse(atob(data.token.split(".")[1]));
+              const userId = decodedToken.userId; // O ID do usuário está na claim "userId"
+
+              // Salvar o userId no localStorage
+              localStorage.setItem("userId", userId);
+
+              // Redirecionar para a página inicial
+              //window.location.href = "../paginainicial"; // ou qualquer página desejada
+            } else {
+              alert("Erro: Token não recebido.");
+            }
+          })
+          .catch((error) => {
+            console.error("Erro ao se conectar ao servidor:", error);
+            alert("Erro ao se conectar ao servidor: " + error.message);
+          });
+      }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="/js/login.js"></script>
-</body>
+   
+  </body>
 </html>

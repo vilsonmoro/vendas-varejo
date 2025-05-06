@@ -1,3 +1,5 @@
+import { BASE_URL } from './url_base'
+
 function confirmLogout(event) {
     event.preventDefault();
     const confirmed = confirm("Você deseja realmente sair da aplicação?");
@@ -84,7 +86,7 @@ document.getElementById('salvarBtn').addEventListener('click', async function (e
         
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`/endereco/${enderecoId}`, {
+            const response = await fetch(`${BASE_URL}/endereco/${enderecoId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
