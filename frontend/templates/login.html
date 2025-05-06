@@ -15,7 +15,7 @@
   </head>
   <body>
     <div class="container">
-      <img src="logo.jpg" alt="Logo" />
+      <img src="../static/images/logo.jpg" alt="Logo" />
       <form method="POST" class="formLogin" object="login">
         <h1>Iniciar sessão</h1>
         <div class="input-field">
@@ -26,12 +26,14 @@
           <input type="password" id="password" field="senha" required />
           <label for="password">Senha</label>
         </div>
-        <button type="submit" class="btn" onclick="logar()">Login</button>
+        <button type="button" class="btn" onclick="logar()">Login</button>
       </form>
     </div>
     <script>
+      const BASE_URL = "https://vendas-varejo.onrender.com";
+
       function logar() {
-        debugger
+        event.preventDefault();
         const login = document.getElementById("login").value;
         const password = document.getElementById("password").value;
 
@@ -54,7 +56,7 @@
         };
 
         // Chamada à API para autenticação
-        fetch("localhost:8080/usuarios/login", {
+        fetch(`${BASE_URL}/usuarios/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -93,6 +95,5 @@
       }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-   
   </body>
 </html>
