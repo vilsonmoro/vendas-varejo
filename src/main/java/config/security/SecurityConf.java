@@ -46,9 +46,32 @@ public class SecurityConf {
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(PublicEndpoints.ENDPOINTS.toArray(new String[0]))
 						.permitAll()
-						.anyRequest().authenticated())
+				        .anyRequest().authenticated())
 				.addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		return httpSecurity.build();
+		/*httpSecurity
+        .cors().and()
+        .csrf().disable()
+        .headers().frameOptions().disable()
+        .and()
+        .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeHttpRequests(auth -> auth
+            // Libera os endpoints públicos definidos
+            .requestMatchers(PublicEndpoints.ENDPOINTS.toArray(new String[0])).permitAll()
+            
+            // Libera o acesso para usuários autenticados com ROLE_USER
+            .requestMatchers("/clientes/**").hasRole("USER")
+
+            // Qualquer outra requisição precisa de autenticação
+            .anyRequest().authenticated()
+        )
+        // Adiciona o filtro JWT antes do filtro padrão de login
+        .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+    return httpSecurity.build();*/
+		
 	}
 
 	@Bean
@@ -62,18 +85,16 @@ public class SecurityConf {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-       // config.setAllowedOrigins(List.of("http://localhost:5500"));
-        config.setAllowedOrigins(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        //config.setAllowCredentials(true);
+	 @Bean
+	    public CorsConfigurationSource corsConfigurationSource() {
+	        CorsConfiguration config = new CorsConfiguration();
+	        config.setAllowedOrigins(List.of("*"));  
+	        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+	        config.setAllowedHeaders(List.of("*"));
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
+	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	        source.registerCorsConfiguration("/**", config);  
+	        return source;
+	    }
 	
 }

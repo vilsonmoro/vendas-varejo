@@ -3,13 +3,14 @@ package config.authentication;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import config.userdetails.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
@@ -23,7 +24,7 @@ import repositories.UsuarioRepository;
 public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenService jwtTokenService;
-   private final UsuarioRepository userRepository;
+    private final UsuarioRepository userRepository;
     private final List<AntPathRequestMatcher> publicMatchers;
 
     public UserAuthenticationFilter(JwtTokenService jwtTokenService, UsuarioRepository userRepository) {
@@ -32,30 +33,23 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         this.publicMatchers = PublicEndpoints.ENDPOINTS.stream()
                 .map(AntPathRequestMatcher::new)
                 .toList();
+        System.out.println(this.publicMatchers.toString());
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) 
             throws ServletException, IOException {
-    	
-    	System.out.println("Requested Path: " + request.getRequestURI()); 
-    	
-    	System.out.println(request.getMethod());
-    	
-    	if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+    	   	
+    	if ("OPTIONS".equalsIgnoreCase(request.getMethod()) || isPublicPath(request)) {
     		filterChain.doFilter(request, response);
             return;
-        }
-    	
-        if (isPublicPath(request)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        }    	      
 
        String token = recoveryToken(request);
 
         if (token != null && jwtTokenService.validarToken(token)) {
-            String subject = jwtTokenService.getAssuntoToken(token);
+        	DecodedJWT decodedJWT = jwtTokenService.getDecodedJWT(token);
+            String subject = decodedJWT.getSubject();
             Usuario user = userRepository.findByUsuario(subject)
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
 
@@ -64,7 +58,6 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                     userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-
         filterChain.doFilter(request, response);
     }
 

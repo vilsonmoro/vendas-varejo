@@ -40,7 +40,7 @@ public class Cliente {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tippag_cli", length = 25)
-    private FormaPagamento forma_pagamento;
+     private FormaPagamento forma_pagamento;
 
 	public Long getId() {
 		return id;

@@ -24,8 +24,7 @@ public class LoginController {
     @PostMapping("/usuarios/login")
     public ResponseEntity<Object> authenticateUser(@RequestBody Login loginUserDto) {
         try {
-        	System.out.println("cheguei aqui");
-            RecoveryJwtTokenDto token = service.authenticateUser(loginUserDto);
+        	RecoveryJwtTokenDto token = service.authenticateUser(loginUserDto);
             return new ResponseEntity<>(token, HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

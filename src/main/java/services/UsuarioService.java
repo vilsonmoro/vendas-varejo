@@ -31,7 +31,6 @@ public class UsuarioService {
                 new UsernamePasswordAuthenticationToken(loginUserDto.getUsuario(), loginUserDto.getSenha());
                
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-       
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         
         return new RecoveryJwtTokenDto(jwtTokenService.gerarToken(userDetails));

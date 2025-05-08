@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import models.Cliente;
 import services.ClienteService;
 
 @RestController
+@CrossOrigin
 @Tag(name = "Cliente", description = "Operações relacionadas a clientes")
 public class ClienteController {
 	@Autowired
@@ -42,6 +45,7 @@ public class ClienteController {
 	@PostMapping("/clientes")
 	public ResponseEntity<Object> addCliente(@RequestBody Cliente cliente) {
 		try {
+			System.out.print("ola"+ cliente.getNome());
 			return ResponseEntity.status(HttpStatus.CREATED).body(service.addCliente(cliente));
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
